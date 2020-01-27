@@ -51,10 +51,18 @@ const person2 = new Person({
 // })
 
 app.get("/", function (req, res) {
-    res.render("app");
+    res.render("index");
 });
 
-app.post("/", function (req, res) {
+app.get("/signup", function (req, res) {
+    res.render("signup");
+});
+
+app.get("/signin", function (req, res) {
+    res.render("signin");
+});
+
+app.post("/signUp", function (req, res) {
     var fname = req.body.fname;
     var lname = req.body.lname;
     var email = req.body.email;
@@ -72,6 +80,25 @@ app.post("/", function (req, res) {
     res.write("Thank you for signing up " + fname + " " + lname);
     res.write(" We have sent a verification link to " + email);
     res.end();
+});
+
+app.post("/signin", function (req, res) {
+    var email2 = req.body.email;
+    var pwd2 = req.body.pwd;
+    Person.find({email: email2, password: pwd2}, function (err, person) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            if (person.length != 0) {
+                res.render("success");
+            }
+            else {
+                res.render("failure");
+            }
+        }
+            
+    })
 });
 
 app.listen(3000, function () {
