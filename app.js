@@ -100,7 +100,7 @@ app.post("/signin", function (req, res) {
             if (userFound) {
                 bcrypt.compare(pwd2, userFound.password, function(err, result) {
                     if (result === true) {
-                        res.render("success");
+                        res.render("success", {username: userFound.firstName});
                     }
                     else {
                         res.render("failure");
